@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.YiqiDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.serial as serial
+        ,a.lx_types as lxTypes
+        ,a.zy_types as zyTypes
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.YiqiView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Yiqi  a
+        <where>
+            <if test=" params.serial != '' and params.serial != null and params.serial != 'null' ">
+                and a.serial like CONCAT('%',#{params.serial},'%')
+            </if>
+            <if test=" params.lxTypes != '' and params.lxTypes != null and params.lxTypes != 'null' ">
+                and a.lx_types = #{params.lxTypes}
+            </if>
+            <if test=" params.zyTypes != '' and params.zyTypes != null and params.zyTypes != 'null' ">
+                and a.zy_types = #{params.zyTypes}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>
